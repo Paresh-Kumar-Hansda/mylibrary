@@ -112,10 +112,10 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
 
 #all borrowed
 
-from django.contrib.auth.decorators import user_passes_test
-
+#from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.mixins import UserPassesTestMixin
 #@user_passes_test(lambda user: user.is_staff)
-class LoanedBooksListView(generic.ListView):
+class LoanedBooksListView(UserPassesTestMixin,generic.ListView):
     #"""Generic class-based view listing books on loan to current user."""
     model = BookInstance
     template_name ='catalog/bookinstance_list_borrowed_user.html'
@@ -123,7 +123,8 @@ class LoanedBooksListView(generic.ListView):
 
     def get_queryset(self):
         return BookInstance.objects.filter(status__exact='o').order_by('due_back')
-
+    def test_func(self):
+        return self.request.user.is_staff
 #form
 import datetime
 
