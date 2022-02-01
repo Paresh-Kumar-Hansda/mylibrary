@@ -111,6 +111,10 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
         return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
 
 #all borrowed
+
+from django.contrib.auth.decorators import user_passes_test
+
+#@user_passes_test(lambda user: user.is_staff)
 class LoanedBooksListView(generic.ListView):
     #"""Generic class-based view listing books on loan to current user."""
     model = BookInstance
