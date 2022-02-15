@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 # Create your views here.
-from .models import Book, Author, BookInstance, Genre
+from .models import Book, Author, BookInstance, Genre,Person
 
 def index(request):
     """View function for home page of site."""
@@ -108,7 +108,7 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
     #paginate_by = 10
 
     def get_queryset(self):
-        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+        return BookInstance.objects.filter(borrower=Person.objects.get()).filter(status__exact='o').order_by('due_back')
 
 #all borrowed
 
@@ -126,6 +126,8 @@ class LoanedBooksListView(UserPassesTestMixin,generic.ListView):
     def test_func(self):
         return self.request.user.is_staff
 #form
+
+
 import datetime
 
 from django.contrib.auth.decorators import login_required, permission_required

@@ -62,8 +62,19 @@ class Book(models.Model):
 
     display_language.short_description = 'Language'
 
-import uuid # Required for unique book instances
+class Person(models.Model):
+    django_id=models.ForeignKey(User, on_delete=models.RESTRICT, null=True)
+    identy=models.CharField(max_length=200)
+    contact_no=models.CharField(max_length=100)
+    facebook=models.CharField(max_length=200)
+    whatsapp=models.CharField(max_length=200)
+    name=models.CharField(max_length=200)
+    address=models.CharField(max_length=200)
+    def __str__(self):
+        """String for representing the Model object."""
+        return f'{self.name}, {self.address}'
 
+import uuid # Required for unique book instances
 class BookInstance(models.Model):
     """Model representing a specific copy of a book (i.e. that can be borrowed from the library)."""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular book across whole library')
@@ -94,7 +105,7 @@ class BookInstance(models.Model):
         """String for representing the Model object."""
         return f'{self.id} ({self.book.title})'
      
-    borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    borrower = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True, blank=True)
     #librarian
     #lander = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, blank=True)       
     #property
