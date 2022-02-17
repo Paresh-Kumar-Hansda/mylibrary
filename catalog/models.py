@@ -62,17 +62,42 @@ class Book(models.Model):
 
     display_language.short_description = 'Language'
 
-class Person(models.Model):
-    django_id=models.ForeignKey(User, on_delete=models.RESTRICT, null=True)
+class Borrower(models.Model):
+    django_id=models.OneToOneField(User, on_delete=models.RESTRICT, null=True)
     identy=models.CharField(max_length=200)
     contact_no=models.CharField(max_length=100)
     facebook=models.CharField(max_length=200)
     whatsapp=models.CharField(max_length=200)
     name=models.CharField(max_length=200)
     address=models.CharField(max_length=200)
+
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this book."""
+        return reverse('borrower-detail', args=[str(self.id)])
+
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.name}, {self.address}'
+
+
+class Librarian(models.Model):
+    django_id=models.OneToOneField(User, on_delete=models.RESTRICT, null=True)
+    identy=models.CharField(max_length=200)
+    contact_no=models.CharField(max_length=100)
+    facebook=models.CharField(max_length=200)
+    whatsapp=models.CharField(max_length=200)
+    name=models.CharField(max_length=200)
+    address=models.CharField(max_length=200)
+
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this book."""
+        return reverse('librarian-detail', args=[str(self.id)])
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return f'{self.name}, {self.address}'
+
+
 
 import uuid # Required for unique book instances
 class BookInstance(models.Model):
@@ -105,8 +130,8 @@ class BookInstance(models.Model):
         """String for representing the Model object."""
         return f'{self.id} ({self.book.title})'
      
-    borrower = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True, blank=True)
-    #librarian
+    borrower = models.ForeignKey(Borrower, on_delete=models.SET_NULL, null=True, blank=True)
+    librarian = models.ForeignKey(Librarian, on_delete=models.SET_NULL, null=True, blank=True)
     #lander = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, blank=True)       
     #property
     @property

@@ -28,9 +28,17 @@
      <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
    {% endif %}
 {% if user.is_staff %}
-<li><a href="{% url "all-borrowed" %}">Staff</a></li>
+<li>Hello,Librarian {{ user.get_username }}</li>
+<li><a href="{% url "all-borrowed" %}">Borrowed</a></li>
+<li><a href="{% url "borrowers" %}">Borrowers </a></li>
+
+{% if user.is_superuser %}
+<li>Hello, Admin {{ user.get_username }}</li>
+<li><a href="{% url "librarians" %}">Librarians </a></li>
+
+{% endif %}
 {% else %}
-<p>Contact staff</p>
+<li><p>Contact staff</p></li>
 {% endif %}        
 </ul>
 

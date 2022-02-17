@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 # Create your views here.
-from .models import Book, Author, BookInstance, Genre,Person
+from .models import Book, Author, BookInstance, Genre, Borrower, Librarian
 
 def index(request):
     """View function for home page of site."""
@@ -34,10 +34,21 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 from django.views import generic
-'''
-class BookListView(generic.ListView):
-    model = Book
-//'''
+
+class BorrowerListView(generic.ListView):
+    model = Borrower
+
+class BorrowerDetailView(generic.DetailView):
+    model = Borrower
+
+
+class LibrarianListView(generic.ListView):
+    model = Librarian
+
+class LibrarianDetailView(generic.DetailView):
+    model = Librarian
+
+
 class BookListView(generic.ListView):
     model = Book
     #context_object_name = 'my_book_list'   # your own name for the list as a template variable
@@ -102,16 +113,24 @@ class MyView(LoginRequiredMixin, View):
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
-    """Generic class-based view listing books on loan to current user."""
     model = BookInstance
+    #borrowr=BookInstance.objects.filter(id=1)
+    #name = Borrower.objects.filter(id__in=borrowr.borrower)
+    """Generic class-based view listing books on loan to current user."""
+    #model = BookInstance
     template_name ='catalog/bookinstance_list_borrowed_user.html'
     #paginate_by = 10
-
     def get_queryset(self):
-        return BookInstance.objects.filter(borrower=Person.objects.get()).filter(status__exact='o').order_by('due_back')
-
+        return BookInstance.objects.filter(borrower=self.request.user.borrower).filter(status__exact='o').order_by('due_back')
+        #return name
+    """
 #all borrowed
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['borrower'] = self.objects.borrower_set.all()
+        return context
+    """
 #from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import UserPassesTestMixin
 #@user_passes_test(lambda user: user.is_staff)

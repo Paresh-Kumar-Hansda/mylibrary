@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Author, Genre, Language, Book, BookInstance, Person
+from .models import Author, Genre, Language, Book, BookInstance, Borrower, Librarian
 
 #inline author
 class BookInline(admin.TabularInline):
@@ -19,7 +19,7 @@ class AuthorAdmin(admin.ModelAdmin):
 
 # Register the admin class with the associated model
 admin.site.register(Author, AuthorAdmin)
-admin.site.register(Person)
+admin.site.register([Borrower,Librarian])
 admin.site.register(Genre)
 admin.site.register(Language)
 class BooksInstanceInline(admin.TabularInline):
@@ -43,7 +43,7 @@ class BookAdmin(admin.ModelAdmin):
 # Register the Admin classes for BookInstance using the decorator
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
-    list_display=('book', 'status', 'borrower', 'due_back', 'id')
+    list_display=('book', 'status', 'librarian','borrower', 'due_back', 'id')
 
     list_filter = ('status', 'due_back')
     fieldsets = (
@@ -51,7 +51,7 @@ class BookInstanceAdmin(admin.ModelAdmin):
             'fields': ('book', 'imprint', 'id')
         }),
         ('Availability', {
-            'fields': ('status', 'due_back', 'borrower')
+            'fields': ('status', 'due_back', 'borrower',"librarian")
         }),
     )
     # inlines=[BookAdminInline]

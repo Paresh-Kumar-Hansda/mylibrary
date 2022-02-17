@@ -1,0 +1,30 @@
+{% extends "base_generic.html" %}
+<h1>Paresh Hansda</h1>
+{% block content %}
+
+  <h1>Member: {{ borrower.name }}</h1>
+
+  <p><strong>Contact:</strong> <a href="">{{ borrower.contact_no }}</a></p> <!-- author detail link not yet defined -->
+  <p><strong>Address:</strong> {{ borrower.address }}</p>
+  <p><strong>Whatsapp:</strong> {{ borrower.whatsapp }}</p>
+  <p><strong>Facebook:</strong> {{ person.facebook }}</p>
+  <p><strong>Identy card No:</strong> {{ borrower.identy}}</p>
+
+  <div style="margin-left:20px;margin-top:20px">
+    <h4>Copies</h4>
+
+    {% for copy in borrower.bookinstance_set.all %}
+      <hr>
+      <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
+        {{ copy.get_status_display }}
+      </p>
+      {% if copy.status != 'a' %}
+
+        <p><strong>Due to be returned:</strong> {{ copy.due_back }}</p>
+        <p><strong>Book:</strong> {{ copy.book }}</p>
+      {% endif %}
+      <p><strong>Imprint:</strong> {{ copy.imprint }}</p>
+      <p class="text-muted"><strong>Librarian:</strong> {{ copy.librarian }}</p>
+    {% endfor %}
+  </div>
+{% endblock %}

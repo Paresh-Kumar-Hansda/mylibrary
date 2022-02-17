@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+<h1>paresh</h1>
+{% block content %}
+
+  <h1>Library Members</h1>
+  {% if object_list %}
+  <ul>
+    {% for book in object_list %}
+      <li>
+        <a href="{{book.get_absolute_url}}">{{ book.name }}</a> {% if user.is_staff %} ({{book.address}}) {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no member in the library.</p>
+  {% endif %}
+
+{% endblock %}

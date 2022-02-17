@@ -4,6 +4,11 @@ from . import views
 urlpatterns = [
     path('',views.index, name='index'),
     path('books/', views.BookListView.as_view(), name='books'),
+    path('borrowers/', views.BorrowerListView.as_view(), name='borrowers'),
+    path('borrower/<int:pk>', views.BorrowerDetailView.as_view(), name='borrower-detail'),
+    path('librarians/', views.LibrarianListView.as_view(), name='librarians'),
+    path('librarian/<int:pk>', views.BorrowerDetailView.as_view(), name='librarian-detail'),
+
     #authors url
     path('authors/', views.AuthorListView.as_view(), name='authors'),
     path('book/<int:pk>', views.BookDetailView.as_view(), name='book-detail'),
