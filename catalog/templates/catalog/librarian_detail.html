@@ -1,0 +1,31 @@
+{% extends "base_generic.html" %}
+<h1>Paresh Hansda</h1>
+{% block content %}
+
+
+  <h1>Profile: {{ librarian.name }}</h1>
+
+  <p><strong>Contact:</strong> <a href="">{{ librarian.contact_no }}</a></p> <!-- author detail link not yet defined -->
+  <p><strong>Address:</strong> {{ librarian.address }}</p>
+  <p><strong>Whatsapp:</strong> {{ librarian.whatsapp }}</p>
+  <p><strong>Facebook:</strong> {{ librarian.facebook }}</p>
+  <p><strong>Identy card No:</strong> {{ librarian.identy}}</p>
+
+  <div style="margin-left:20px;margin-top:20px">
+    <h4>Copies</h4>
+
+    {% for copy in librarian.bookinstance_set.all %}
+      <hr>
+      <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
+       <h3><strong>Copy:</strong> {{ copy.book }}</h3> {{ copy.get_status_display }}
+      </p>
+      <p><strong>Imprint:</strong> {{ copy.imprint }}</p>
+      {% if copy.status == 'o' %}
+        <p class="text-muted"><strong>Issued to:</strong> {{ copy.borrower }}</p>
+        <p class="text-muted"><strong>Issued by:</strong> {{ copy.issuer }}</p>
+        <p><strong>Due to be returned:</strong> {{ copy.due_back }}</p>
+        
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endblock %}
