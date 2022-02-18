@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 # Create your views here.
 from .models import Book, Author, BookInstance, Genre, Borrower, Librarian
-
+from django.contrib.auth.mixins import UserPassesTestMixin
 def index(request):
     """View function for home page of site."""
 
@@ -35,19 +35,25 @@ def index(request):
 
 from django.views import generic
 
-class BorrowerListView(generic.ListView):
+class BorrowerListView(UserPassesTestMixin,generic.ListView):
     model = Borrower
+    def test_func(self):
+        return self.request.user.is_staff
 
-class BorrowerDetailView(generic.DetailView):
+class BorrowerDetailView(UserPassesTestMixin,generic.DetailView):
     model = Borrower
+    def test_func(self):
+        return self.request.user.is_staff
 
-
-class LibrarianListView(generic.ListView):
+class LibrarianListView(UserPassesTestMixin,generic.ListView):
     model = Librarian
-
-class LibrarianDetailView(generic.DetailView):
+    def test_func(self):
+        return self.request.user.is_staff
+class LibrarianDetailView(UserPassesTestMixin,generic.DetailView):
     model = Librarian
-
+    template_name ='catalog/librarian_detail.html'
+    def test_func(self):
+        return self.request.user.is_staff
 
 class BookListView(generic.ListView):
     model = Book
@@ -123,6 +129,25 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
     def get_queryset(self):
         return BookInstance.objects.filter(borrower=self.request.user.borrower).filter(status__exact='o').order_by('due_back')
         #return name
+#from django.contrib.auth.mixins import UserPassesTestMixin
+class LoanedBooksByLibrarianListView(UserPassesTestMixin,generic.ListView):
+    model = BookInstance
+    #borrowr=BookInstance.objects.filter(id=1)
+    #name = Borrower.objects.filter(id__in=borrowr.borrower)
+    """Generic class-based view listing books on loan to current user."""
+    #model = BookInstance
+    template_name ='catalog/bookinstance_list_borrowed_librarian.html'
+    #paginate_by = 10
+    def get_queryset(self):
+        return BookInstance.objects.filter(librarian=self.request.user.librarian)
+        #return name
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+
+
+
     """
 #all borrowed
 
@@ -132,7 +157,7 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
         return context
     """
 #from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth.mixins import UserPassesTestMixin
+#from django.contrib.auth.mixins import UserPassesTestMixin
 #@user_passes_test(lambda user: user.is_staff)
 class LoanedBooksListView(UserPassesTestMixin,generic.ListView):
     #"""Generic class-based view listing books on loan to current user."""
@@ -141,9 +166,9 @@ class LoanedBooksListView(UserPassesTestMixin,generic.ListView):
     #paginate_by = 10
 
     def get_queryset(self):
-        return BookInstance.objects.filter(status__exact='o').order_by('due_back')
+        return BookInstance.objects.filter(status__exact='o')
     def test_func(self):
-        return self.request.user.is_staff
+        return self.request.user.is_superuser
 #form
 
 

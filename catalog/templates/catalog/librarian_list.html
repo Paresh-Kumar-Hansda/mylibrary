@@ -7,7 +7,7 @@
   <ul>
     {% for book in object_list %}
       <li>
-        <a href="{{book.get_absolute_url}}">{{ book.name }}</a> {% if user.is_staff %} ({{book.address}}) {% endif %}
+        <a href="{% url "librarian-detail" book.id %}">{{ book.name }}</a> {% if user.is_staff %} ({{book.address}}) {% endif %}
       </li>
     {% endfor %}
   </ul>

@@ -63,7 +63,7 @@ class Book(models.Model):
     display_language.short_description = 'Language'
 
 class Borrower(models.Model):
-    django_id=models.OneToOneField(User, on_delete=models.RESTRICT, null=True)
+    django_id=models.OneToOneField(User, on_delete=models.RESTRICT, null=True, blank=True)
     identy=models.CharField(max_length=200)
     contact_no=models.CharField(max_length=100)
     facebook=models.CharField(max_length=200)
@@ -88,11 +88,6 @@ class Librarian(models.Model):
     whatsapp=models.CharField(max_length=200)
     name=models.CharField(max_length=200)
     address=models.CharField(max_length=200)
-
-    def get_absolute_url(self):
-        """Returns the url to access a detail record for this book."""
-        return reverse('librarian-detail', args=[str(self.id)])
-
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.name}, {self.address}'
@@ -131,7 +126,8 @@ class BookInstance(models.Model):
         return f'{self.id} ({self.book.title})'
      
     borrower = models.ForeignKey(Borrower, on_delete=models.SET_NULL, null=True, blank=True)
-    librarian = models.ForeignKey(Librarian, on_delete=models.SET_NULL, null=True, blank=True)
+    librarian = models.ForeignKey(Librarian,on_delete=models.PROTECT,editable=False, null=True,blank=False)
+    issuer=models.ForeignKey(Librarian,on_delete=models.PROTECT,editable=True,related_name="issue_by",blank=True,null=True)
     #lander = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, blank=True)       
     #property
     @property

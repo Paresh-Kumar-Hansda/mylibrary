@@ -1,15 +1,12 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h1>Borrowed books</h1>
+    <h1>My books</h1>
 
     {% if bookinstance_list %}
   <table>
 <tr>
 <th><strong>Title</strong></th>
-{%if user.is_superuser %}
-<th><strong>Librarian</strong></th>
-{% endif %}
 <th><strong>Status</strong></th>
 <th><stong>Due back</strong></th>
 {%if user.is_staff %}
@@ -23,9 +20,6 @@
       {% for bookinst in bookinstance_list %}
     <tr class="{% if bookinst.is_overdue %}text-danger{% endif %}">
        <td> <a href="{% url 'book-detail' bookinst.book.pk %}">{{bookinst.book.title}}</a></td>
-{%if user.is_superuser %}
-       <td>({{ bookinst.librarian }})</td>
-{% endif %}
        <td>({{ bookinst.status }})</td>
       <td>({{ bookinst.due_back }})</td>
 {%if user.is_staff %}        

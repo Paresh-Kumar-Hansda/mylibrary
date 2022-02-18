@@ -43,15 +43,23 @@ class BookAdmin(admin.ModelAdmin):
 # Register the Admin classes for BookInstance using the decorator
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
-    list_display=('book', 'status', 'librarian','borrower', 'due_back', 'id')
-
+    list_display=('book', 'status','borrower', 'due_back', 'id')
+    actions=None
     list_filter = ('status', 'due_back')
     fieldsets = (
         (None, {
             'fields': ('book', 'imprint', 'id')
         }),
         ('Availability', {
-            'fields': ('status', 'due_back', 'borrower',"librarian")
+            'fields': ('status', 'due_back', 'borrower')
         }),
     )
+    def save_model(self, request, obj, form, change):
+        if not obj.librarian:
+            obj.librarian = request.user.librarian
+            obj.save()
+
+        else:
+            obj.issuer=request.user.librarian
+            obj.save()
     # inlines=[BookAdminInline]
