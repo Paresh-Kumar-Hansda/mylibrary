@@ -28,12 +28,12 @@
       <td class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
         {{ copy.get_status_display }}
       </td>
-      {% if copy.status != 'a' %}
-      {% if user.is_superuser %} 
+      
+       
         <td>{{ copy.borrower }}</td>
-      {% endif %}  
+       
         <td>{{ copy.due_back }}</td>
-      {% endif %}
+      
       <td>{{ copy.imprint }}</td>
       <td class="text-muted">{{ copy.id }}</td>
 </tr>    
