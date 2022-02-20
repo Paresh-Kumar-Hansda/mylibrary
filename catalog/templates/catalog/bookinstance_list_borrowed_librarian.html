@@ -19,8 +19,8 @@
 
       {% for bookinst in bookinstance_list %}
     <tr class="{% if bookinst.is_overdue %}text-danger{% endif %}">
-       <td> <a href="{% url 'book-detail' bookinst.book.pk %}">{{bookinst.book.title}}</a></td>
-       <td>({{ bookinst.status }})</td>
+       <td> <a href="{% url 'book-detail' bookinst.book.pk %}">{{bookinst.book.title}}({{bookinst.imprint}})</a></td>
+       <td>({{ bookinst.get_status_display }})</td>
       <td>({{ bookinst.due_back }})</td>
 {%if user.is_staff %}        
       <td>{{bookinst.issuer}}</td>

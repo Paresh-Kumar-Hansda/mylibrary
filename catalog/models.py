@@ -70,7 +70,8 @@ class Borrower(models.Model):
     whatsapp=models.CharField(max_length=200)
     name=models.CharField(max_length=200)
     address=models.CharField(max_length=200)
-
+    email_field = models.EmailField(max_length = 254,null=True)
+    home_no=models.CharField(max_length=100,null=True)
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
         return reverse('borrower-detail', args=[str(self.id)])
