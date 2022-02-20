@@ -7,7 +7,7 @@ urlpatterns = [
     path('borrowers/', views.BorrowerListView.as_view(), name='borrowers'),
     path('borrower/<int:pk>', views.BorrowerDetailView.as_view(), name='borrower-detail'),
     path('librarians/', views.LibrarianListView.as_view(), name='librarians'),
-    path('librarian/<int:pk>', views.BorrowerDetailView.as_view(), name='librarian-detail'),
+    path('librarian/<int:pk>', views.LibrarianDetailView.as_view(), name='librarian-detail'),
 
     #authors url
     path('authors/', views.AuthorListView.as_view(), name='authors'),
