@@ -18,6 +18,9 @@
         {{ copy.get_status_display }}
       </p>
       {% if copy.status != 'a' %}
+      {% if user.is_superuser %} 
+        <p><strong>Borrowed by:</strong> {{ copy.borrower }}</p>
+      {% endif %}  
         <p><strong>Due to be returned:</strong> {{ copy.due_back }}</p>
       {% endif %}
       <p><strong>Imprint:</strong> {{ copy.imprint }}</p>
