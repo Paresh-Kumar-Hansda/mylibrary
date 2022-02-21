@@ -5,6 +5,18 @@ from .models import Borrower
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
+
+
+
+# newusers/forms.py
+
+from django.contrib.auth.forms import UserCreationForm
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        fields = UserCreationForm.Meta.fields + ("email",)
+
+
 class RenewBookForm(forms.Form):
     renewal_date = forms.DateField(help_text="Enter a date between now and 4 weeks (default 3).")
 

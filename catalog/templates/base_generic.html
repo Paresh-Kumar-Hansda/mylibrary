@@ -22,15 +22,16 @@
 
    {% if user.is_authenticated %}
      <li>User: {{ user.get_username }}</li>
-     <li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>
+    
      <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
    {% else %}
      <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+     <li> <a href="{% url 'register' %}">Register</a></li>
    {% endif %}
 {% if user.is_staff %}
 <li>Hello,Librarian {{ user.get_username }}</li>
 <li><a href="{% url "my-loaned" %}">MyLibrary</a></li>
-
+<li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>
 {% if user.is_superuser %}
 <li>Hello, Admin {{ user.get_username }}</li>
 <li><a href="{% url "librarians" %}">Librarians </a></li>
