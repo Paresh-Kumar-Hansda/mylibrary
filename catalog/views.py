@@ -214,3 +214,25 @@ def renew_book_librarian(request, pk):
     }
 
     return render(request, 'catalog/book_renew_librarian.html', context)
+"""
+from .forms import BorrowerForm
+#from .forms import MovieForm
+from django.contrib import messages
+
+
+
+
+def new(request):
+    if request.method == "POST":
+        borrower_form = BorrowerForm(request.POST, request.FILES)
+        if borrower_form.is_valid():
+            borrower_form.save()
+            messages.success(request, ('New borrower was successfully added!'))
+        else:
+            messages.error(request, 'Error saving form')
+        return redirect("catalog:new") 
+    borrower_form = BorrowerForm()
+    borrowers = Borrower.objects.all()
+    return render(request=request, template_name="catalog/new.html", context={'borrower_form':borrower_form, 'borrowers':borrowers})
+
+"""

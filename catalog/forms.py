@@ -1,7 +1,7 @@
 import datetime
 
 from django import forms
-
+from .models import Borrower
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
@@ -21,3 +21,10 @@ class RenewBookForm(forms.Form):
 
         # Remember to always return the cleaned data.
         return data
+"""
+#from .models import Borrower
+class BorrowerForm(forms.ModelForm)
+    class Meta:
+        model = Borrower
+        fields =("django_id","name","whatsapp","facebook","email_field","address","contact_no","home_no","identy","image")
+"""

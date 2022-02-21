@@ -132,3 +132,9 @@ LOGIN_REDIRECT_URL = '/'
 #email
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# for django version < 3.1
+# import os at the top
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

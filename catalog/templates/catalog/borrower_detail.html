@@ -3,7 +3,7 @@
 {% block content %}
 
   <h1>Member: {{ borrower.name }}</h1>
-
+  <img src="{{ borrower.image.url }}"style="float:right;width:62px;height:62px;" class="card-img-top img-fluid" alt="{{ borrower.name }}">
   <p><strong>Contact:</strong> <a href="">{{ borrower.contact_no }}</a></p> <!-- author detail link not yet defined -->
   <p><strong>Address:</strong> {{ borrower.address }}</p>
   <p><strong>Whatsapp:</strong> {{ borrower.whatsapp }}</p>

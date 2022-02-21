@@ -1,8 +1,8 @@
 from django.urls import path
 from . import views
-
 urlpatterns = [
     path('',views.index, name='index'),
+    #path('newborrower/',views.new, name='newborrower'),
     path('books/', views.BookListView.as_view(), name='books'),
     path('borrowers/', views.BorrowerListView.as_view(), name='borrowers'),
     path('borrower/<int:pk>', views.BorrowerDetailView.as_view(), name='borrower-detail'),
@@ -32,3 +32,5 @@ urlpatterns += [
 urlpatterns += [
     path('myloanedbooks/', views.LoanedBooksByLibrarianListView.as_view(), name='my-loaned'),
 ]
+
+#urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
