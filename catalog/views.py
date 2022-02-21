@@ -3,6 +3,33 @@ from django.http import HttpResponse
 # Create your views here.
 from .models import Book, Author, BookInstance, Genre, Borrower, Librarian
 from django.contrib.auth.mixins import UserPassesTestMixin
+
+
+from django.contrib.auth import login
+#from django.shortcuts import redirect, render
+from django.urls import reverse
+from catalog.forms import CustomUserCreationForm
+"""
+def dashboard(request):
+    return render(request, "users/dashboard.html")
+"""
+def register(request):
+    if request.method == "GET":
+        return render(
+            request, "catalog/register.html",
+            {"form": CustomUserCreationForm}
+        )
+    elif request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect(reverse("index"))
+
+
+
+
+
 def index(request):
     """View function for home page of site."""
 
@@ -12,7 +39,7 @@ def index(request):
 
     # Available books (status = 'a')
     num_instances_available = BookInstance.objects.filter(status__exact='a').count()
-    num_instances_borrowed=BookInstance.objects.filter(borrower=request.user.borrower).filter(status__exact='o').count()
+    #num_instances_borrowed=BookInstance.objects.filter(borrower=request.user.borrower).filter(status__exact='o').count()
     # The 'all()' is implied by default.
     num_authors = Author.objects.count()
     num_genre=Genre.objects.count()
@@ -24,7 +51,7 @@ def index(request):
         'num_books': num_books,
         'num_instances': num_instances,
         'num_instances_available': num_instances_available,
-        'num_instances_borrowed': num_instances_borrowed,
+        #'num_instances_borrowed': num_instances_borrowed,
         'num_authors': num_authors,
         'num_genre':num_genre,
         'num_visits': num_visits,
