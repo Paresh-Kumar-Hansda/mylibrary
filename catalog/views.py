@@ -9,6 +9,34 @@ from django.contrib.auth import login
 #from django.shortcuts import redirect, render
 from django.urls import reverse
 from catalog.forms import CustomUserCreationForm
+
+
+from django.http import HttpResponseRedirect
+#from django.shortcuts import render
+
+from .forms import BookAddForm
+
+def newbook(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = BookAddForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            form.save()
+            # redirect to a new URL:
+            return HttpResponseRedirect('/')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = BookAddForm()
+
+    return render(request, 'catalog/newbook.html', {'form': form})
+
+
+
+
 """
 def dashboard(request):
     return render(request, "users/dashboard.html")
@@ -207,7 +235,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from catalog.forms import RenewBookForm
+from catalog.forms import RenewBookForm,BookAddForm
 
 @login_required
 @permission_required('catalog.can_mark_returned', raise_exception=True)

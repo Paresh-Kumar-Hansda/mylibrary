@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+<h1>paresh</h1>
+{% block content %}
+<h2 class="my-4">Add a new book</h2>
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+                {{form}}
+                <button class="btn btn-primary my-4" type="submit">Submit</button>
+          </form>
+{% endblock %}

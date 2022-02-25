@@ -1,7 +1,7 @@
 import datetime
 
 from django import forms
-from .models import Borrower
+from .models import Borrower,Book
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
@@ -40,3 +40,7 @@ class BorrowerForm(forms.ModelForm)
         model = Borrower
         fields =("django_id","name","whatsapp","facebook","email_field","address","contact_no","home_no","identy","image")
 """
+class BookAddForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = "__all__"
