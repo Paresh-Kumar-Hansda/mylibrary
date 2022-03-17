@@ -9,6 +9,13 @@
   <p><strong>Whatsapp:</strong> {{ borrower.whatsapp }}</p>
   <p><strong>Facebook:</strong> {{ person.facebook }}</p>
   <p><strong>Identy card No:</strong> {{ borrower.identy}}</p>
+  {% if borrower.idcard %}
+  <strong>view id</strong> <div class="container"><embed src="{{ borrower.idcard.url}}" type="application/pdf" width="100%" height="600px"/></div>
+  {% else %}
+   <p> ID in pdf NA</p>
+  {% endif %}
+
+<canvas id="mycanvas"></canvas>
 
   <div style="margin-left:20px;margin-top:20px">
     <h4>Copies</h4>
@@ -28,5 +35,28 @@
     {% endfor %}
   </div>
 
+<script>
+pdfjsLib.getDocument({{ borrower.idcard.url}}).then(doc => {
+  console.log("This file has" + doc._pdfInfo.numPages + "pages");
+
+  doc.getPage(1).then(page =>{
+    var myCanvas=document.getElementById("my_canvas");
+    var context=myCanvas.getContext("2d");
+    
+    var viewport=page.getViewport(1);
+    myCanvas.width=viewport.width;
+    myCanvas.height=viewport.height;
+    
+    page.render({
+    canvasContext:context,
+    viewport:viewport
+
+    });
+  });
+  }
+
+  );
+</script>
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.13.216/build/pdf.min.js"></script>
 
 {% endblock %}

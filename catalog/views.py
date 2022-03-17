@@ -56,6 +56,10 @@ def register(request):
 
 
 
+#pdf.js
+def pdf(request):
+    return render(request, 'catalog/simple.html')
+
 
 
 def index(request):
