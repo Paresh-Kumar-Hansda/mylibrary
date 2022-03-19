@@ -3,19 +3,22 @@
 {% block content %}
 
   <h1>Member: {{ borrower.name }}</h1>
-  <img src="{{ borrower.image.url }}"style="float:right;width:62px;height:62px;" class="card-img-top img-fluid" alt="{{ borrower.name }}">
+  <img src="{{ borrower.image.url }}"style="float:right;width:200px;height:200px;" id="img"class="card-img-top img-fluid" alt="{{ borrower.name }}">
   <p><strong>Contact:</strong> <a href="">{{ borrower.contact_no }}</a></p> <!-- author detail link not yet defined -->
   <p><strong>Address:</strong> {{ borrower.address }}</p>
-  <p><strong>Whatsapp:</strong> {{ borrower.whatsapp }}</p>
-  <p><strong>Facebook:</strong> {{ person.facebook }}</p>
-  <p><strong>Identy card No:</strong> {{ borrower.identy}}</p>
+  <p><strong><i class="fa fa-whatsapp" style="font-size:32px;color:green"></i>:</strong> {{ borrower.whatsapp }}</p>
+  <p><strong><i class="fa fa-facebook"></i>:</strong> {{ person.facebook }}</p>
+  <p><strong><i class="fa fa-id-card-o" style="font-size:32px;color:red"></i></strong> {{ borrower.identy}}</p>
   {% if borrower.idcard %}
-  <strong>view id</strong> <div class="container"><embed src="{{ borrower.idcard.url}}" type="application/pdf" width="100%" height="600px"/></div>
+  <strong>view id</strong> <div class="container"><embed src="{{ borrower.idcard.url}}" type="application/pdf" id="id-src"/></div>
   {% else %}
    <p> ID in pdf NA</p>
   {% endif %}
 
-<canvas id="mycanvas"></canvas>
+<canvas id="my_Canvas" width="200" height="100"
+style="border:1px solid #c3c3c3;">
+Your browser does not support the canvas element.></canvas>
+
 
   <div style="margin-left:20px;margin-top:20px">
     <h4>Copies</h4>
@@ -36,11 +39,11 @@
   </div>
 
 <script>
-pdfjsLib.getDocument({{ borrower.idcard.url}}).then(doc => {
+pdfjsLib.getDocument($('id-src').val();).then(doc => {
   console.log("This file has" + doc._pdfInfo.numPages + "pages");
 
   doc.getPage(1).then(page =>{
-    var myCanvas=document.getElementById("my_canvas");
+    var myCanvas=document.getElementById("my_Canvas");
     var context=myCanvas.getContext("2d");
     
     var viewport=page.getViewport(1);
@@ -58,5 +61,10 @@ pdfjsLib.getDocument({{ borrower.idcard.url}}).then(doc => {
   );
 </script>
 <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.13.216/build/pdf.min.js"></script>
-
+<script>
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+ctx.fillStyle = "#FF0000";
+ctx.fillRect(0,0,150,75);
+</script>
 {% endblock %}
